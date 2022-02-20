@@ -58,6 +58,7 @@ body {
 }
 a {
   text-decoration: none;
+  color:inherit;
 }
 `;  // index에 정의된 대로 ThemeProvider의 props(theme)에 접근이 가능
 
