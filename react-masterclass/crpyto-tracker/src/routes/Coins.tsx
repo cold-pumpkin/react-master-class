@@ -64,7 +64,7 @@ interface ICoin {
 }
 
 function Coins() {
-  /*
+  /* --- React query로 대체  ---
   const [coins, setCoins] = useState<CoinInterface[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -77,10 +77,11 @@ function Coins() {
     })(); // 즉시 실행
   }, []);
   */
+
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins)
   // fetchCoins 동작이 끝나면 react query 가 isLoading에게 알려주고 데이터를 data에 넣어줌
   // 첫번째 인자는 boolean, 두번째 인자는 데이터
-  // 데이터는 캐싱해두기 때문에 다른 페이지에 갔다가 돌아와도 데이터가 즉시 렌더링 됨
+  // 데이터는 캐싱해두기 때문에 다른 페이지에 갔다가 돌아와도 API를 호출하지 않고 데이터가 즉시 렌더링 됨
 
   return (
     <Container>
