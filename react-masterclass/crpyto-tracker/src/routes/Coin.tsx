@@ -165,7 +165,7 @@ function Coin() {
   // isLoading -> infoLoading으로 이름 변경
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId], // 캐싱해둘 쿼리의 key
-    () => fetchCoinInfo(coinId!)
+    () => fetchCoinInfo(coinId!)   // non-null assertion operator
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
