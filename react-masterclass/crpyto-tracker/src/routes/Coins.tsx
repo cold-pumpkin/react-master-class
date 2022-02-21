@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
+import { fetchCoins } from "../api";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -51,7 +53,7 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
-interface CoinInterface {
+interface ICoin {
   id: string,
   name: string,
   symbol: string,
@@ -62,6 +64,7 @@ interface CoinInterface {
 }
 
 function Coins() {
+  /*
   const [coins, setCoins] = useState<CoinInterface[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -73,17 +76,22 @@ function Coins() {
       setLoading(false);
     })(); // 즉시 실행
   }, []);
+  */
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins)
+  // fetchCoins 동작이 끝나면 react query 가 isLoading에게 알려주고 데이터를 data에 넣어줌
+  // 첫번째 인자는 boolean, 두번째 인자는 데이터
+  // 데이터는 캐싱해두기 때문에 다른 페이지에 갔다가 돌아와도 데이터가 즉시 렌더링 됨
 
   return (
     <Container>
       <Header>
       <Title>Coins</Title>
       </Header>
-      {loading ? (
+      {isLoading ? (
         <Loader>Loading...</Loader>
       ): 
       (<CoinsList>
-        {coins.map(coin =>
+        {data?.slice(0, 100).map(coin =>
           <Coin key={coin.id}>
             <Link to={`/${coin.id}`} state={{"name": coin.name}}>
             <Img 
