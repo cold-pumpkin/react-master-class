@@ -4,7 +4,6 @@ import { ReactQueryDevtools } from "react-query/devtools"  // 캐싱된 쿼리 �
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import { useState } from "react"; 
-import { setSyntheticTrailingComments } from "typescript";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap');
@@ -74,9 +73,8 @@ function App() {
   return (  // Fragment
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <button onClick={toggleDark}>Toggle Mode</button>
         <GlobalStyle />
-        <Router />
+        <Router toggleDark={toggleDark} />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>
