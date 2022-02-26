@@ -4,6 +4,8 @@ import { ReactQueryDevtools } from "react-query/devtools"  // 캐싱된 쿼리 �
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import { useState } from "react"; 
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap');
@@ -67,14 +69,12 @@ a {
 `;  // index에 정의된 대로 ThemeProvider의 props(theme)에 접근이 가능
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-  const toggleDark = () => setIsDark((current) => !current);
-
+  const isDark = useRecoilValue(isDarkAtom);
   return (  // Fragment
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Router toggleDark={toggleDark} />
+        <Router />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>
