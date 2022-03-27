@@ -1,6 +1,12 @@
 import { createGlobalStyle } from "styled-components";
+import TodoList from "./TodoList";
 
-const GlobalStyle = createGlobalStyle`
+interface ThemeType {
+  bgColor: string;
+  textColor: string;
+}
+
+const GlobalStyle = createGlobalStyle<{theme: ThemeType}>`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
 html, body, div, span, applet, object, iframe,
@@ -65,6 +71,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      <TodoList />
     </>
   );
 }
