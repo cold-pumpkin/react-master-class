@@ -5,3 +5,8 @@ export const darkTheme: DefaultTheme = {
   textColor: "black",
   accentColor: "#9c88ff",
 }
+
+export interface ThemeType {
+  bgColor: string;
+  textColor: string;
+}

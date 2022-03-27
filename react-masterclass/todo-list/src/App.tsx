@@ -1,10 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import TodoList from "./TodoList";
-
-interface ThemeType {
-  bgColor: string;
-  textColor: string;
-}
+import { ThemeType } from "./theme"
 
 const GlobalStyle = createGlobalStyle<{theme: ThemeType}>`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap');
