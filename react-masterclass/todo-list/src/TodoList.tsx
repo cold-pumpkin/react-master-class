@@ -22,12 +22,24 @@ function TodoList() {
   </div>;
 }
 */
+interface IForm {
+  email: string
+  firstName: string
+  lastName: string
+  password: string
+}
 
 function TodoList() {
   // register : onChange, onBlur .. 등 사용 가능
   // watch : 입력값 변경내역 추적
   // handleSubmit : validation 정상/비정상 시 동작하는 함수
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { 
+    register, handleSubmit, formState: { errors } 
+  } = useForm<IForm>({
+    defaultValues: {  // 초기값
+      email: "@naver.com"
+    }
+  });
   
   const onValid = (data: any) => {
     console.log(data);
