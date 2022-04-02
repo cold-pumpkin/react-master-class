@@ -27,6 +27,8 @@ interface IForm {
   firstName: string
   lastName: string
   password: string
+  password1: string
+  extraError?: string
 }
 
 function TodoList() {
@@ -34,15 +36,26 @@ function TodoList() {
   // watch : 입력값 변경내역 추적
   // handleSubmit : validation 정상/비정상 시 동작하는 함수
   const { 
-    register, handleSubmit, formState: { errors } 
+    register, 
+    handleSubmit, 
+    formState: { errors },
+    setError
   } = useForm<IForm>({
     defaultValues: {  // 초기값
       email: "@naver.com"
     }
   });
   
-  const onValid = (data: any) => {
+  const onValid = (data: IForm) => {
     console.log(data);
+    if (data.password !== data.password1) {
+      setError(
+        "password1", 
+        { message: "Password are not the same!" },
+        { shouldFocus: true }   // Error 발생된 곳으로 Focus 이동
+      );
+    }
+    // setError("extraError", { message: "Server offline."});
   }
 
   return <div>
@@ -59,13 +72,21 @@ function TodoList() {
             value: /^[A-Za-z0-9._%+-]+@naver.com$/,
             message: "Only naver.com emails allowed"
           },
+          validate: {
+            noHo: (value) => value.includes("ho") ? "No 'ho' allowed." : true,
+            noPark: (value) => value.includes("park") ? "No 'park' allowed." : true,
+            // async로 서버 호출한 값을 validation 할 수도 있음
+          }
         })} 
         placeholder="Email" 
       />
       <span>{errors?.email?.message}</span>
       <input 
         {...register("firstName", {
-          required: "write here!", minLength: 1
+          required: "write here!", 
+          minLength: 1,
+          validate: (value) => value.includes("ho") ? "No 'ho' allowed." : true   
+          // ho를 포함하지 않으면 validate 통과, 포함하면 에러 메시지 리턴
         })} 
         placeholder="First Name" 
       />
@@ -85,10 +106,23 @@ function TodoList() {
             message: "Password is too short!"
           }
         })} 
-        placeholder="Pasword" 
+        placeholder="Password" 
       />
       <span>{errors?.password?.message}</span>
+      <input 
+        {...register("password1", {
+          required: "Password is required", 
+          minLength: {
+            value: 5,
+            message: "Password is too short!"
+          }
+        })} 
+        placeholder="Password1" 
+      />
+      <span>{errors?.password1?.message}</span>
       <button>Add</button>
+      <span>{errors?.extraError?.message}</span>
+      {/* ?가 붙어있으면 undefined인 경우 수행을 끝냄 */}
     </form>
   </div>;
 }
