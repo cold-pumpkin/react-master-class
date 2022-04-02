@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { todoState } from "../atoms";
+import CreateTodo from "./CreateTodo";
+import Todo from "./Todo";
 
 /*
 function TodoList() {
@@ -24,60 +27,21 @@ function TodoList() {
 */
 
 
-interface IForm {
-  todo: string;
-}
-
-interface ITodo {
-  text: string;
-  id: number;
-  category: "TO_DO" | "DOING" | "DONE";   // 3중 하나로 제한된 경우
-}
-
-// recoil atom
-const todoState = atom<ITodo[]>({
-  key: "todo",
-  default: []
-});
-
 function TodoList() {
   // recoil
   // const value = useRecoilValue(todoState);
   // const modfn = useSetRecoilState(todoState);
-  const [todos, setTodos] = useRecoilState(todoState);  // useRecoilValue & useSetRecoilState
-  
-  const { 
-    register, 
-    handleSubmit, 
-    setValue
-  } = useForm<IForm>();
-  
-  const handleValid = ({todo}: IForm) => {
-    console.log("add todo : ", todo);
-    setTodos((oldToDos) => [
-      { text: todo, id: Date.now(), category: "TO_DO" },
-      ...oldToDos,
-    ]);
-    setValue("todo", "");
-  };
-  
+  //const [todos, setTodos] = useRecoilState(todoState);  // useRecoilValue & useSetRecoilState
+  const todos = useRecoilValue(todoState);  // 값만 반환, modifier 함수는 반환 x
 
   return (
     <div>
       <h1>Todo List</h1>
       <hr />
-      <form onSubmit={handleSubmit(handleValid)}>
-        <input
-          {...register("todo", {
-            required: "Please write a To Do",
-          })}
-          placeholder="Write a to do"
-        />
-        <button>Add</button>
-      </form>
+      <CreateTodo />
       <ul>
-        {todos.map((toDo) => (
-          <li key={toDo.id}>{toDo.text}</li>
+        {todos.map((todo) => (
+          <Todo key={todo.id} {...todo} />
         ))}
       </ul>
     </div>
