@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { todoState } from "../atoms";
+import { todoSelector, todoState } from "../atoms";
 import CreateTodo from "./CreateTodo";
 import Todo from "./Todo";
 
@@ -30,19 +30,35 @@ function TodoList() {
   // recoil
   // const value = useRecoilValue(todoState);
   // const modfn = useSetRecoilState(todoState);
-  //const [todos, setTodos] = useRecoilState(todoState);  // useRecoilValue & useSetRecoilState
-  const todos = useRecoilValue(todoState);  // 값만 반환, modifier 함수는 반환 x
-
+  // const [todos, setTodos] = useRecoilState(todoState);  // useRecoilValue & useSetRecoilState
+  //const todos = useRecoilValue(todoState);  // 값만 반환, modifier 함수는 반환 x
+  const [todos, doings, dones] = useRecoilValue(todoSelector);
   return (
     <div>
       <h1>Todo List</h1>
       <hr />
       <CreateTodo />
+      <h2>To Do</h2>
       <ul>
         {todos.map((todo) => (
           <Todo key={todo.id} {...todo} />
         ))}
       </ul>
+      <hr />
+      <h2>Doing</h2>
+      <ul>
+        {doings.map((todo) => (
+          <Todo key={todo.id} {...todo} />
+        ))}
+      </ul>
+      <hr />
+      <h2>Done</h2>
+      <ul>
+        {dones.map((todo) => (
+          <Todo key={todo.id} {...todo} />
+        ))}
+      </ul>
+      <hr />
     </div>
   );
 }
