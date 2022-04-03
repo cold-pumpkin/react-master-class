@@ -1,9 +1,15 @@
 import { atom, selector } from "recoil";
 
+export enum Categories {
+  "TO_DO" = "TO_DO",  // 지정해주지 않으면 숫자로 표현됨
+  "DOING" = "DOING",
+  "DONE" = "DONE",
+}
+
 export interface ITodo {
   text: string;
   id: number;
-  category: "TO_DO" | "DOING" | "DONE";   // 3중 하나로 제한된 경우
+  category: Categories;   // 3중 하나로 제한된 경우
 }
 
 // recoil atom
@@ -13,9 +19,9 @@ export const todoState = atom<ITodo[]>({
 });
 
 // 카테고리 state
-export const categoryState = atom({
+export const categoryState = atom<Categories>({
   key: "category",
-  default: "TO_DO"
+  default: Categories.TO_DO
 })
 
 // selector : atom의 output을 변형

@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { ITodo, todoState } from "../atoms";
+import { Categories, ITodo, todoState } from "../atoms";
 
 function Todo({ text, category, id }: ITodo) {
   const setTodos = useSetRecoilState(todoState);
@@ -43,9 +43,9 @@ function Todo({ text, category, id }: ITodo) {
     <li>
       <span>{text}</span>
       {/* 현재 카테고리에 해당되지 않는 버튼만 보여주기 v1. */}
-      {category !== "DOING" && <button onClick={() => onClick("DOING")}>Doing</button>}
-      {category !== "TO_DO" && <button onClick={() => onClick("TO_DO")}>To Do</button>}
-      {category !== "DONE" && <button onClick={() => onClick("DONE")}>Done</button>}
+      {category !== Categories.DOING && <button onClick={() => onClick(Categories.DOING)}>Doing</button>}
+      {category !== Categories.TO_DO && <button onClick={() => onClick(Categories.TO_DO)}>To Do</button>}
+      {category !== Categories.DONE && <button onClick={() => onClick(Categories.DONE)}>Done</button>}
 
       {/* 현재 카테고리에 해당되지 않는 버튼만 보여주기 v2. */}
       {/* {category !== "DONE" && (

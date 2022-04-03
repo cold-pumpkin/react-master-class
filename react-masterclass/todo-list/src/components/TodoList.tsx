@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { categoryState, todoSelector, todoState } from "../atoms";
+import { categoryState, todoSelector, Categories } from "../atoms";
 import CreateTodo from "./CreateTodo";
 import Todo from "./Todo";
 
@@ -38,21 +38,17 @@ function TodoList() {
 
   // 현재 카테고리 state 셋팅
   const onInput = (event:React.FormEvent<HTMLSelectElement>) => {
-    setCategory(event.currentTarget.value);
-    return null;
+    setCategory(event.currentTarget.value as any);
   }
-
-  console.log('category', category);
-  console.log('todos', todos);
 
   return (
     <div>
       <h1>Todo List</h1>
       <hr />
       <select onInput={onInput}>
-        <option value="TO_DO">To Do</option>
-        <option value="DOING">Doing</option>
-        <option value="DONE">Done</option>
+        <option value={Categories.TO_DO}>To Do</option>
+        <option value={Categories.DOING}>Doing</option>
+        <option value={Categories.DONE}>Done</option>
       </select>
       <CreateTodo />
       {todos?.map(todo => <Todo key={todo.id} {...todo} />)}
