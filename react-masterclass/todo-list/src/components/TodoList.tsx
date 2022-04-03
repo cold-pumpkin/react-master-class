@@ -1,5 +1,6 @@
-import { useRecoilValue } from "recoil";
-import { todoSelector, todoState } from "../atoms";
+import React from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { categoryState, todoSelector, todoState } from "../atoms";
 import CreateTodo from "./CreateTodo";
 import Todo from "./Todo";
 
@@ -31,34 +32,30 @@ function TodoList() {
   // const value = useRecoilValue(todoState);
   // const modfn = useSetRecoilState(todoState);
   // const [todos, setTodos] = useRecoilState(todoState);  // useRecoilValue & useSetRecoilState
-  //const todos = useRecoilValue(todoState);  // 값만 반환, modifier 함수는 반환 x
-  const [todos, doings, dones] = useRecoilValue(todoSelector);
+  //const todos = useRecoilValue(todoState);  // atom or selector 값만 반환, modifier 함수는 반환 x
+  const todos = useRecoilValue(todoSelector);
+  const [category, setCategory] = useRecoilState(categoryState);
+
+  // 현재 카테고리 state 셋팅
+  const onInput = (event:React.FormEvent<HTMLSelectElement>) => {
+    setCategory(event.currentTarget.value);
+    return null;
+  }
+
+  console.log('category', category);
+  console.log('todos', todos);
+
   return (
     <div>
       <h1>Todo List</h1>
       <hr />
+      <select onInput={onInput}>
+        <option value="TO_DO">To Do</option>
+        <option value="DOING">Doing</option>
+        <option value="DONE">Done</option>
+      </select>
       <CreateTodo />
-      <h2>To Do</h2>
-      <ul>
-        {todos.map((todo) => (
-          <Todo key={todo.id} {...todo} />
-        ))}
-      </ul>
-      <hr />
-      <h2>Doing</h2>
-      <ul>
-        {doings.map((todo) => (
-          <Todo key={todo.id} {...todo} />
-        ))}
-      </ul>
-      <hr />
-      <h2>Done</h2>
-      <ul>
-        {dones.map((todo) => (
-          <Todo key={todo.id} {...todo} />
-        ))}
-      </ul>
-      <hr />
+      {todos?.map(todo => <Todo key={todo.id} {...todo} />)}
     </div>
   );
 }
